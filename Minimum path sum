@@ -1,0 +1,24 @@
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int dp[][]=new int[grid.length][grid[0].length];//MEMO
+         for(int[] d : dp) Arrays.fill(d,-1);
+         return helper(grid,0,0,grid.length,grid[0].length,dp);
+    }
+    int helper(int grid[][],int i,int j,int m,int n,int dp[][]){
+        if(i==m-1 && j==n-1){  //last row last col value 
+            return grid[i][j];
+        }
+     
+        if(dp[i][j]!=-1){   //value already computed
+            return dp[i][j];
+        }
+        if(i==m-1){ //end of row can move only in right direction
+            return dp[i][j]=grid[i][j]+helper(grid,i,j+1,m,n,dp);
+        }
+        else if(j==n-1){//end of col can only move in down direction
+            return dp[i][j]=grid[i][j]+helper(grid,i+1,j,m,n,dp);
+        }else{
+        return dp[i][j]=grid[i][j]+Math.min(helper(grid,i,j+1,m,n,dp),helper(grid,i+1,j,m,n,dp));
+    }
+    }
+}
