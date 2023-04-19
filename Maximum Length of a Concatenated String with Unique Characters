@@ -1,0 +1,32 @@
+class Solution {
+    public int maxLength(List<String> arr) {
+        String temp="";
+        return helper(0,temp,arr);
+    }
+    int helper(int i,String temp,List<String> arr){
+        if(i>=arr.size()){
+            return temp.length();
+        }
+        int include=0;
+        int exclude=0;
+        if(hasDouplicate(temp,arr.get(i))){
+            exclude=helper(i+1,temp,arr);
+        }else{
+            include=helper(i+1,temp+arr.get(i),arr);
+            exclude=helper(i+1,temp,arr);
+        }
+        return Math.max(include,exclude);
+    }
+    boolean hasDouplicate(String temp,String arr){
+        Set<Character> s=new HashSet<>();
+        for(int i=0;i<temp.length();i++){
+            s.add(temp.charAt(i));
+        }
+         for(int i=0;i<arr.length();i++){
+            if(!s.add(arr.charAt(i))){
+                return true;
+            }
+         }
+         return false;
+    }
+}
