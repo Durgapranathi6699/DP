@@ -1,0 +1,31 @@
+class Solution {
+    Boolean dp[][]=new Boolean[2001][2001];
+    public boolean canCross(int[] stones) {
+        if(stones[1]>1){
+            return false;
+        }
+        Map<Integer,Integer> map=new HashMap<>();
+        for(int i=0;i<stones.length;i++){
+            map.put(stones[i],i);          //stone,index
+        }
+        return solve(1,stones,1,map);
+    }
+    boolean solve(int i,int stones[],int k,Map<Integer,Integer> map){
+        if(i==stones.length-1)return true;
+        if(i>=stones.length)return false;
+         boolean a=false;
+         boolean b=false;
+         boolean c=false;
+         if(dp[i][k]!=null)return dp[i][k];
+        if(k>1 && map.containsKey(stones[i]+k-1) ){  //after jumping k-1 units if  map  contains stone , move to that stone (index)
+            a=solve(map.get(stones[i]+k-1) , stones ,k-1,map);
+        }
+        if(map.containsKey(stones[i]+k)){
+            b=solve(map.get(stones[i]+k) , stones ,k,map);
+        }
+         if(map.containsKey(stones[i]+k+1)){
+             c=solve(map.get(stones[i]+k+1) , stones , k+1,map);
+         }
+        return dp[i][k] =a || b || c;
+    }
+}
