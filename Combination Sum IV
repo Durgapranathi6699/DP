@@ -1,0 +1,19 @@
+class Solution {
+    Integer dp[][]=new Integer[201][1001];
+    public int combinationSum4(int[] nums, int target) {
+        return  solve(nums,target,0);
+    }
+    int solve(int nums[],int target,int i){
+        
+        if(target==0)return 1;
+        if(target<0 || i>=nums.length)return 0;
+
+         if(dp[i][target]!=null)return dp[i][target];
+
+          int t= solve(nums,target-nums[i],0);
+          int nt= solve(nums,target,i+1);
+
+         return dp[i][target]=t+nt;
+        
+    }
+}
